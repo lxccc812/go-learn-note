@@ -68,3 +68,50 @@ g self update
 g self uninstall
 ```
 
+- go 项目中常见的需要忽略的文件
+```.gitignore
+# .gitignore
+# Windows system files
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Go binaries and build outputs
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output of specific tools
+coverage.out
+
+# Go dependency directories
+vendor/
+
+# IDE/editor directories and files
+# VS Code
+.vscode/
+
+# GoLand
+.idea/
+
+# Goland specific files
+*.iml
+
+# Temporary files
+*.log
+*.swp
+*.swo
+*.tmp
+*~
+
+# macOS system files (if applicable, in case you share the repo with macOS users)
+.DS_Store
+.AppleDouble
+.LSOverride
+
+```
+
+
