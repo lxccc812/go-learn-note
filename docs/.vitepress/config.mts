@@ -9,6 +9,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Note', link: '/day00' },
+      { text: 'Example', link: 'https://github.com/lxccc812/go-learn-exmple' },
     ],
 
     sidebar: [
@@ -17,6 +18,7 @@ export default defineConfig({
         items: [
           { text: 'day00', link: '/day00' },
           { text: 'day01', link: '/day01' },
+          { text: 'day02', link: '/day02' },
         ]
       }
     ],
