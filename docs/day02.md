@@ -38,14 +38,14 @@ go 1.23.0
 package main
 
 import (
-	"fmt"
+    "fmt"
 
-	"example.com/greetings"
+    "example.com/greetings"
 )
 
 func main() {
-	message := greetings.Hello("Lee")
-	fmt.Println(message)
+    message := greetings.Hello("Lee")
+    fmt.Println(message)
 }
 
 ```
@@ -69,6 +69,8 @@ require example.com/greetings v0.0.0-00010101000000-000000000000
 
 ## 错误处理, 异常捕获
 
+引入 `errors` 包, 函数返回多值, 使用 if 判断 `nil` 作为占位符返回没用错误的情况
+
 ::: code-group
 
 ```go [/home/greetings/greetings.go]
@@ -76,19 +78,19 @@ package greetings
 
 import "fmt"                                           // [!code --]
 import (                                               // [!code ++]
-	"errors"                                           // [!code ++]
-	"fmt"                                              // [!code ++]
+    "errors"                                           // [!code ++]
+    "fmt"                                              // [!code ++]
 )                                                      // [!code ++]
 
 func Hello(name string) string {                       // [!code --]
 func Hello(name string) (string, error) {              // [!code ++]
-	if name == "" {                                    // [!code ++]
-		return "", errors.New("name is empty")         // [!code ++]
-	}                                                  // [!code ++]
+    if name == "" {                                    // [!code ++]
+        return "", errors.New("name is empty")         // [!code ++]
+    }                                                  // [!code ++]
 
-	message := fmt.Sprintf("Hi, %v. Welcome!", name)
-	return message                                     // [!code --]
-	return message, nil                                // [!code ++]
+    message := fmt.Sprintf("Hi, %v. Welcome!", name)
+    return message                                     // [!code --]
+    return message, nil                                // [!code ++]
 }
 
 ```
@@ -97,24 +99,120 @@ func Hello(name string) (string, error) {              // [!code ++]
 package main
 
 import (
-	"fmt"
-	"log"                                              // [!code ++]
+    "fmt"
+    "log"                                              // [!code ++]
 
-	"example.com/greetings"
+    "example.com/greetings"
 )
 
 func main() {
-	log.SetPrefix("greetings: ")                       // [!code ++]
-	log.SetFlags(0)                                    // [!code ++]
+    log.SetPrefix("greetings: ")                       // [!code ++]
+    log.SetFlags(0)                                    // [!code ++]
 
-	message, err := greetings.Hello("")                // [!code ++]
-	if err != nil {                                    // [!code ++]
-		log.Fatal(err)                                 // [!code ++]
-	}                                                  // [!code ++]
+    message, err := greetings.Hello("")                // [!code ++]
+    if err != nil {                                    // [!code ++]
+        log.Fatal(err)                                 // [!code ++]
+    }                                                  // [!code ++]
 
-	fmt.Println(message)
+    fmt.Println(message)
 }
 
 ```
 
 :::
+
+## 随机函数的引用
+
+```go [/home/greetings/greetings.go]
+import (
+    "errors"
+    "fmt"
+    "math/rand"  // [!code ++]
+)
+
+func randomFormat() string {    // [!code ++] 
+    formats := []string{    // [!code ++]
+        "Hi, %v. Welcome!", // [!code ++]
+        "Great to see you, %v!",    // [!code ++]
+        "Hail, %v! Well met!",  // [!code ++]
+    }   // [!code ++]
+    return formats[rand.Intn(len(formats))]     // [!code ++]
+}   // [!code ++]
+
+randomFormat()    // [!code ++]
+
+```
+
+## for 的使用
+::: code-group
+
+```go [/home/greetings/greetings.go]
+package greetings
+
+import (
+    "errors"
+    "fmt"
+    "math/rand"
+)
+
+func Hello(name string) (string, error) {
+    if name == "" {
+        return "", errors.New("name is empty")
+    }
+
+    message := fmt.Sprintf(randomFormat(), name)
+    return message, nil
+}
+
+func Hellos(names []string) (map[string]string, error) {    // [!code ++]
+    messages := make(map[string]string) // [!code ++]
+    for _, name := range names {    // [!code ++]
+        message, err := Hello(name) // [!code ++]
+        if err != nil { // [!code ++]
+            return nil, err // [!code ++]
+        }   // [!code ++]
+
+        messages[name] = message    // [!code ++]
+    }   // [!code ++]
+    return messages, nil    // [!code ++]
+}   // [!code ++]
+
+func randomFormat() string {
+    formats := []string{
+        "Hi, %v. Welcome!",
+        "Great to see you, %v!",
+        "Hail, %v! Well met!",
+    }
+
+    return formats[rand.Intn(len(formats))]
+}
+
+```
+
+```go [/home/hello/hello.go]
+package main
+
+import (
+    "fmt"
+    "log"
+
+    "example.com/greetings"
+)
+
+func main() {
+    log.SetPrefix("greetings: ")
+    log.SetFlags(0)
+
+    // message, err := greetings.Hello("Lee")    // [!code --]
+    names := []string{"Gladys", "Samantha", "Darrin"}    // [!code ++]
+    message, err := greetings.Hellos(names)    // [!code ++]
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    fmt.Println(message)
+}
+
+```
+
