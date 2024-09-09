@@ -216,3 +216,60 @@ func main() {
 
 ```
 
+
+
+## `test` 测试
+::: code-group
+
+```go [/home/greetings/greetings.go]
+package greetings
+
+import (
+    "errors"
+    "fmt"
+)
+
+func Hello(name string) (string, error) {
+    if name == "" {
+        return "", errors.New("name is empty")
+    }
+
+    message := fmt.Sprintf(randomFormat(), name) // test success    // [!code highlight]
+    // message := fmt.Sprintf(randomFormat()) // test error         // [!code highlight]
+    return message, nil
+}
+
+```
+
+```go [/home/greetings/greetings_test.go]
+package greetings
+
+import (
+    "regexp"
+    "testing"
+)
+
+func TestHello(t *testing.T) {
+    name := "Gladys"
+    want := regexp.MustCompile(`\b` + name + `\b`)
+    msg, err := Hello("Gladys")
+
+    if !want.MatchString(msg) || err != nil {
+        t.Fatalf(`Hello("Gladys") = %q, %v, want match for %#q, nil`, msg, err, want)
+    }
+}
+
+func TestHelloEmpty(t *testing.T) {
+    msg, err := Hello("")
+    if msg != "" || err == nil {
+        t.Fatalf(`Hello("") = %q, %v, want "", error`, msg, err)
+    }
+}
+
+```
+
+:::
+
+- 命令行测试
+  - `cd /home/greetings/`
+  - `go test`
