@@ -216,8 +216,6 @@ func main() {
 
 ```
 
-
-
 ## `test` 测试
 ::: code-group
 
@@ -273,3 +271,11 @@ func TestHelloEmpty(t *testing.T) {
 - 命令行测试
   - `cd /home/greetings/`
   - `go test`
+
+## 编译与安装
+```shell
+cd /home/hello
+go build  # 编译成可执行文件
+go list -f '{{.Target}}'  # 查看 go 安装路径
+go install  # 安装
+```
