@@ -29,7 +29,12 @@ export default defineConfig({
 
         socialLinks: [
             { icon: 'github', link: 'https://github.com/lxccc812' }
-        ]
+        ],
+
+        editLink: {
+            pattern: 'https://github.com/lxccc812/go-learn-note/blob/main/docs/:path',
+            text: 'Edit this page on GitHub'
+        },
     },
     markdown: {
         lineNumbers: true,
