@@ -33,5 +33,6 @@ export default defineConfig({
     },
     markdown: {
         lineNumbers: true,
-    }
+    },
+    lastUpdated: true
 })
