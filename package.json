@@ -2,11 +2,13 @@
   "version": "0.0.1",
   "name": "go-learn-note",
   "devDependencies": {
-    "vitepress": "^1.3.4"
+    "vitepress": "^1.5.0"
   },
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
-    "preview": "vitepress preview docs"
+    "preview": "vitepress preview docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   }
 }
