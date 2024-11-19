@@ -4,6 +4,11 @@
 - win中 把 gvm 配置到 gitbash 中
 
 [g/gvm](https://github.com/voidint/g)
+> 安装时注意gvm的架构版本 使用 `echo %PROCESSOR_ARCHITECTURE%` 查看当前cpu架构信息
+> 
+> *An environment that supports fuzzing.* Go fuzzing with coverage instrumentation is only available on AMD64 and ARM64 architectures currently.
+> 
+> 支持模糊测试的环境。目前，使用覆盖率检测进行模糊测试仅适用于 AMD64 和 ARM64 架构。
 
 下载二进制文件 `g.exe` 存放于以下路径
 - /c
@@ -16,7 +21,7 @@
 
 - 配置文件
 ```shell
-# bash.bashrc
+# git/etc/bash.bashrc
 # gvm shell setup
 if [ -f "${HOME}/.g/env" ]; then
     . "${HOME}/.g/env"
